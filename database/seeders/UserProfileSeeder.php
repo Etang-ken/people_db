@@ -11,7 +11,7 @@ class UserProfileSeeder extends Seeder
     public function run(): void
     {
         // Create admin user
-        User::create([
+        User::firstOrCreate([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
