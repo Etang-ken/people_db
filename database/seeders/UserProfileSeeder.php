@@ -11,12 +11,14 @@ class UserProfileSeeder extends Seeder
     public function run(): void
     {
         // Create admin user
-        User::firstOrCreate([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'is_admin' => true,
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@peopledbs.com'],
+            [
+                'name' => 'Admin',
+                'password' => bcrypt('Peopledbs1@'),
+                'is_admin' => true,
+            ]
+        );
 
         // Create sample user profiles
         $profiles = [
