@@ -22,6 +22,7 @@ class UserProfileSeeder extends Seeder
         $profiles = [
             [
                 'name' => 'John Doe',
+                'slug' => 'john-doe',
                 'payload' => [
                     'emails' => [
                         ['email' => 'john.doe@example.com', 'start_date' => '2020-01-01', 'end_date' => null],
@@ -42,6 +43,7 @@ class UserProfileSeeder extends Seeder
             ],
             [
                 'name' => 'Jane Smith',
+                'slug' => 'jane-smith',
                 'payload' => [
                     'emails' => [
                         ['email' => 'jane.smith@company.com', 'start_date' => '2019-05-20', 'end_date' => null],
@@ -59,6 +61,7 @@ class UserProfileSeeder extends Seeder
             ],
             [
                 'name' => 'Robert Johnson',
+                'slug' => 'robert-johnson',
                 'payload' => [
                     'emails' => [
                         ['email' => 'robert.j@email.net', 'start_date' => '2018-11-10', 'end_date' => null],
@@ -79,6 +82,7 @@ class UserProfileSeeder extends Seeder
             ],
             [
                 'name' => 'Sarah Williams',
+                'slug' => 'sarah-williams',
                 'payload' => [
                     'emails' => [
                         ['email' => 'sarah.w@domain.org', 'start_date' => '2022-07-01', 'end_date' => null],
@@ -96,6 +100,7 @@ class UserProfileSeeder extends Seeder
             ],
             [
                 'name' => 'Michael Brown',
+                'slug' => 'michael-brown',
                 'payload' => [
                     'emails' => [
                         ['email' => 'michael.brown@tech.io', 'start_date' => '2020-09-15', 'end_date' => null],
