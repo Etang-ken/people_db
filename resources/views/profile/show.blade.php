@@ -195,6 +195,37 @@
             </div>
         </div>
 
+        {{-- PDF Document --}}
+        @if($profile->hasPdf())
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-50">
+                <span class="w-8 h-8 rounded-lg flex items-center justify-center text-white shrink-0" style="background:#328072;">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </span>
+                <h2 class="font-semibold text-gray-800">Document</h2>
+                <span class="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full text-white" style="background:#328072;">PDF</span>
+            </div>
+            <div class="p-6 flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm">Full profile details available in PDF format</p>
+                    <p class="text-xs text-gray-400 mt-1">Click the button to view the document</p>
+                </div>
+                <a href="{{ route('profile.pdf', $profile) }}"
+                   class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-medium text-sm transition hover:opacity-90"
+                   style="background:#328072;">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                    View Full Details
+                </a>
+            </div>
+        </div>
+        @endif
+
         {{-- Meta footer --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 px-6 py-4">
             <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Profile Information</p>

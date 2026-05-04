@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SearchController extends Controller
 {
@@ -82,5 +85,34 @@ class SearchController extends Controller
     public function show(UserProfile $profile): View
     {
         return view('profile.show', compact('profile'));
+    }
+
+    public function pdf(UserProfile $profile): View
+    {
+        if (!$profile->hasPdf()) {
+            abort(404, 'PDF not found');
+        }
+
+        return view('profile.pdf', compact('profile'));
+    }
+
+    public function pdfRaw(UserProfile $profile): Response|BinaryFileResponse
+    {
+        if (!$profile->hasPdf()) {
+            abort(404, 'PDF not found');
+        }
+
+        $path = $profile->pdf_path;
+        $storagePath = Storage::disk('public')->path($path);
+
+        if (!file_exists($storagePath)) {
+            abort(404, 'PDF file not found on disk');
+        }
+
+        return response()->file($storagePath, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $profile->name . ' - Profile.pdf"',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 }

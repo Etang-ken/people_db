@@ -31,6 +31,12 @@ class UserProfileResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->required()
+                            ->maxLength(255)
+                            ->live(onBlur: true),
+                        Forms\Components\TextInput::make('slug')
+                            ->disabled()
+                            ->dehydrated()
+                            ->helperText('Auto-generated from name')
                             ->maxLength(255),
                     ])
                     ->columnSpanFull(),
@@ -118,6 +124,27 @@ class UserProfileResource extends Resource
                             ->columns(3)
                             ->defaultItems(0)
                             ->collapsible(),
+                    ])
+                    ->columnSpanFull(),
+
+                Forms\Components\Section::make('Document')
+                    ->schema([
+                        Forms\Components\FileUpload::make('pdf_path')
+                            ->label('PDF Document')
+                            ->helperText('Upload a PDF document for this profile (max 10MB)')
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->maxSize(10240)
+                            ->directory('profiles/pdfs')
+                            ->preserveFilenames()
+                            ->downloadable()
+                            ->openable()
+                            ->visibility('public')
+                            ->deleteUploadedFileUsing(function ($file, $record) {
+                                if ($record) {
+                                    $record->deletePdf();
+                                    $record->update(['pdf_path' => null]);
+                                }
+                            }),
                     ])
                     ->columnSpanFull(),
             ]);

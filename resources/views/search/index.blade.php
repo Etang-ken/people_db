@@ -35,7 +35,7 @@
                     <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-3">
                         Find People Fast &amp; Free!
                     </h1>
-                    <p class="text-gray-300 text-lg">Find a person by name, phone number, or street address.</p>
+                    <p class="text-gray-300 text-lg">Find a person by name, phone number, or email address.</p>
                 </div>
 
                 {{-- Search card --}}
@@ -73,7 +73,7 @@
                     </div>
 
                     {{-- Form --}}
-                    <form action="{{ route('search.index') }}" method="GET" class="p-6 md:p-8">
+                    <form action="{{ route('search.index') }}" method="GET" id="search-form" class="p-6 md:p-8">
                         <input type="hidden" name="type" id="search-type" value="{{ $type }}">
 
                         <div class="relative mb-4">
@@ -139,13 +139,22 @@
                         </div>
 
                         <div class="flex gap-3">
-                            <button type="submit"
-                                    class="flex-1 text-white font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 text-sm tracking-wide transition-opacity hover:opacity-90"
+                            <button type="submit" id="search-btn"
+                                    class="flex-1 text-white font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 text-sm tracking-wide transition-opacity hover:opacity-90 disabled:opacity-70 disabled:cursor-not-allowed"
                                     style="background:#328072;">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                </svg>
-                                FREE SEARCH
+                                <span id="search-btn-text" class="flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                    </svg>
+                                    FREE SEARCH
+                                </span>
+                                <span id="search-btn-loader" class="hidden flex items-center gap-2">
+                                    <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Searching...
+                                </span>
                             </button>
                             @if($query)
                                 <a href="{{ route('search.index') }}"
@@ -162,7 +171,7 @@
 
     {{-- Results --}}
     @if($results !== null)
-    <div class="max-w-3xl mx-auto px-4 py-10">
+    <div id="results-section" class="max-w-3xl mx-auto px-4 py-10">
         <p class="text-sm text-gray-500 mb-5">
             Showing <span class="font-semibold text-gray-800">{{ $results->total() }}</span> result{{ $results->total() !== 1 ? 's' : '' }}
         </p>
@@ -226,6 +235,27 @@
     @endif
 
     <script>
+        // Handle form submission - disable button and show loader
+        document.getElementById('search-form').addEventListener('submit', function() {
+            const btn = document.getElementById('search-btn');
+            const btnText = document.getElementById('search-btn-text');
+            const btnLoader = document.getElementById('search-btn-loader');
+
+            btn.disabled = true;
+            btnText.classList.add('hidden');
+            btnLoader.classList.remove('hidden');
+        });
+
+        // Scroll to results if they exist on page load
+        @if($results !== null)
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultsSection = document.getElementById('results-section');
+            if (resultsSection) {
+                resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+        @endif
+
         function setSearchType(type) {
             document.getElementById('search-type').value = type;
             document.getElementById('search-query').value = '';
