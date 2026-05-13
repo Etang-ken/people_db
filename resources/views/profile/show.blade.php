@@ -226,6 +226,43 @@
         </div>
         @endif
 
+        {{-- Clear My Information --}}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-50">
+                <span class="w-8 h-8 rounded-lg flex items-center justify-center text-white shrink-0" style="background:#dc2626;">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                </span>
+                <h2 class="font-semibold text-gray-800">Data Privacy</h2>
+                @if($profile->hasPendingDeletionRequest())
+                    <span class="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Pending Request</span>
+                @endif
+            </div>
+            <div class="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <p class="text-gray-600 text-sm">Request to delete your personal information from our database</p>
+                    <p class="text-xs text-gray-400 mt-1">
+                        @if($profile->hasPendingDeletionRequest())
+                            A deletion request is currently being processed
+                        @else
+                            Submit documents to verify your identity
+                        @endif
+                    </p>
+                </div>
+                <a href="{{ route('profile.clear-info.form', $profile) }}"
+                   class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-medium text-sm transition hover:opacity-90 shrink-0"
+                   style="background:#dc2626;">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                    Clear My Information
+                </a>
+            </div>
+        </div>
+
         {{-- Meta footer --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 px-6 py-4">
             <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Profile Information</p>

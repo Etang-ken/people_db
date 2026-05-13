@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -139,5 +140,23 @@ class UserProfile extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Get all data deletion requests for this profile
+     */
+    public function deletionRequests(): HasMany
+    {
+        return $this->hasMany(DataDeletionRequest::class);
+    }
+
+    /**
+     * Check if there's a pending deletion request
+     */
+    public function hasPendingDeletionRequest(): bool
+    {
+        return $this->deletionRequests()
+            ->whereIn('status', ['pending', 'processing'])
+            ->exists();
     }
 }
