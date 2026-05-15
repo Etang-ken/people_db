@@ -137,13 +137,16 @@
             <div>
                 <span class="text-gray-500">Status:</span>
                 <p class="font-medium">
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
-                        @match($record->status)
-                            @case('pending') bg-amber-100 text-amber-800 @break
-                            @case('processing') bg-blue-100 text-blue-800 @break
-                            @case('completed') bg-green-100 text-green-800 @break
-                            @case('rejected') bg-red-100 text-red-800 @break
-                        @endmatch">
+                    @php
+                        $statusClasses = match($record->status) {
+                            'pending' => 'bg-amber-100 text-amber-800',
+                            'processing' => 'bg-blue-100 text-blue-800',
+                            'completed' => 'bg-green-100 text-green-800',
+                            'rejected' => 'bg-red-100 text-red-800',
+                            default => 'bg-gray-100 text-gray-800',
+                        };
+                    @endphp
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium {{ $statusClasses }}">
                         {{ ucfirst($record->status) }}
                     </span>
                 </p>

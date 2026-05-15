@@ -21,6 +21,7 @@ class DataDeletionRequest extends Model
         'status',
         'processed_at',
         'admin_notes',
+        'rejection_reason',
     ];
 
     protected $casts = [
@@ -71,7 +72,7 @@ class DataDeletionRequest extends Model
         $this->update([
             'status' => 'rejected',
             'processed_at' => now(),
-            'admin_notes' => $reason,
+            'rejection_reason' => $reason,
         ]);
     }
 

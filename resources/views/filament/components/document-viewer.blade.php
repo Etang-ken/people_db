@@ -1,3 +1,6 @@
+@php
+    $url = $getState();
+@endphp
 <div class="document-viewer">
     <div class="border rounded-lg overflow-hidden bg-gray-50">
         <div class="relative aspect-[4/3] overflow-hidden">
@@ -7,7 +10,7 @@
                  onclick="window.open('{{ $url }}', '_blank')">
         </div>
         <div class="p-3 bg-white border-t flex items-center justify-between">
-            <span class="text-sm text-gray-600">{{ $label ?? 'Document' }}</span>
+            <span class="text-sm text-gray-600">{{ $getLabel() ?? 'Document' }}</span>
             <a href="{{ $url }}" target="_blank"
                class="text-sm font-medium text-primary-600 hover:text-primary-500 flex items-center gap-1">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

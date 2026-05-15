@@ -123,10 +123,22 @@ class SearchController extends Controller
     /**
      * Show the form for initiating data deletion request
      */
-    public function clearInfoForm(UserProfile $profile): View
+    public function clearInfoForm(Request $request, UserProfile $profile): View
     {
+        $deletionRequests = $profile->deletionRequests()->orderBy('created_at', 'desc')->get();
+
+        // Allow new request submission if ?new=1 is passed
+        if ($request->has('new') && !$profile->hasPendingDeletionRequest()) {
+            return view('profile.clear-info.form', compact('profile'));
+        }
+
         if ($profile->hasPendingDeletionRequest()) {
-            return view('profile.clear-info.pending', compact('profile'));
+            return view('profile.clear-info.pending', compact('profile', 'deletionRequests'));
+        }
+
+        // If user has previous requests (including rejected), show them with option to submit new
+        if ($deletionRequests->isNotEmpty()) {
+            return view('profile.clear-info.pending', compact('profile', 'deletionRequests'));
         }
 
         return view('profile.clear-info.form', compact('profile'));

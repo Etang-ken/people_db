@@ -62,28 +62,29 @@ class DataDeletionRequestResource extends Resource
                             ->label('Notes')
                             ->rows(3)
                             ->placeholder('Add notes about this request...'),
+                        Forms\Components\Textarea::make('rejection_reason')
+                            ->label('Rejection Reason')
+                            ->rows(3)
+                            ->placeholder('Reason for rejection (visible to user)...')
+                            ->visible(fn ($record) => $record?->status === 'rejected'),
                     ]),
 
                 Forms\Components\Section::make('Verification Documents')
                     ->schema([
                         Forms\Components\Grid::make(2)
                             ->schema([
-                                Forms\Components\ViewField::make('id_front')
+                                Forms\Components\ViewField::make('id_front_url')
                                     ->label('ID Front')
-                                    ->view('filament.components.document-viewer')
-                                    ->viewData(['url' => fn ($record) => $record->id_front_url]),
-                                Forms\Components\ViewField::make('id_back')
+                                    ->view('filament.components.document-viewer'),
+                                Forms\Components\ViewField::make('id_back_url')
                                     ->label('ID Back')
-                                    ->view('filament.components.document-viewer')
-                                    ->viewData(['url' => fn ($record) => $record->id_back_url]),
-                                Forms\Components\ViewField::make('selfie')
+                                    ->view('filament.components.document-viewer'),
+                                Forms\Components\ViewField::make('selfie_url')
                                     ->label('Selfie with ID')
-                                    ->view('filament.components.document-viewer')
-                                    ->viewData(['url' => fn ($record) => $record->selfie_url]),
-                                Forms\Components\ViewField::make('ssn_card')
+                                    ->view('filament.components.document-viewer'),
+                                Forms\Components\ViewField::make('ssn_card_url')
                                     ->label('SSN/Tax ID Card')
-                                    ->view('filament.components.document-viewer')
-                                    ->viewData(['url' => fn ($record) => $record->ssn_card_url]),
+                                    ->view('filament.components.document-viewer'),
                             ]),
                     ]),
             ]);
